@@ -13,17 +13,22 @@ import re
 import six
 
 from ..data import find_data
-from .finetuned_bert_crf_wrapper import _BertCrfTagger
+try:
+    from .finetuned_bert_crf_wrapper import _BertCrfTagger
+except Exception:
+    _BertCrfTagger = None
 from .tag import EnsembleTagger, NER_TAG_TYPE
 from .allennlpwrapper import _AllenNlpTokenTagger, ProcessedTextTagger, AllenNlpWrapperTagger
 
-from allennlp.data.token_indexers import PretrainedBertIndexer
-
-
-# Finetuned BERT to CRF
-indexers = {
-    "bert": PretrainedBertIndexer(do_lowercase=False, use_starting_offsets=True, truncate_long_sequences=False, pretrained_model=find_data("models/scibert_cased_vocab-1.0.txt")),
-}
+try:
+    from allennlp.data.token_indexers import PretrainedBertIndexer
+    # Finetuned BERT to CRF
+    indexers = {
+        "bert": PretrainedBertIndexer(do_lowercase=False, use_starting_offsets=True, truncate_long_sequences=False, pretrained_model=find_data("models/scibert_cased_vocab-1.0.txt")),
+    }
+except Exception:
+    PretrainedBertIndexer = None
+    indexers = {}
 
 tokentagger = _AllenNlpTokenTagger()
 processtagger = ProcessedTextTagger()

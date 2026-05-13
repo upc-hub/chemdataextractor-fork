@@ -371,12 +371,11 @@ class RscSearchScraper(SearchScraper):
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--no-sandbox")
         if driver is None:
-            driver = "/home/hein/Downloads/chromedriver-linux64/chromedriver-linux64/chromedriver"
-            #if self.driver is None:
-            #    driver = webdriver.Firefox()
-            #else:
-            #    driver = self.driver
-        driver = webdriver.Chrome(executable_path=driver)
+            import chromedriver_autoinstaller
+            chromedriver_autoinstaller.install()
+            driver = webdriver.Chrome(options=chrome_options)
+        else:
+            driver = webdriver.Chrome(executable_path=driver, options=chrome_options)
         log.debug('Processing query: %s' % query)
 
         url = "http://pubs.rsc.org/en/results/journals?Category=Journal&AllText="

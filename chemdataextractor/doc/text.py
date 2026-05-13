@@ -21,7 +21,10 @@ import six
 from ..model.base import ModelList, sort_merge_candidates
 from ..nlp.lexicon import ChemLexicon, Lexicon
 from ..nlp.cem import IGNORE_PREFIX, IGNORE_SUFFIX, SPECIALS, SPLITS, CiDictCemTagger, CsDictCemTagger, CrfCemTagger
-from ..nlp.new_cem import CemTagger
+try:
+    from ..nlp.new_cem import CemTagger
+except Exception:
+    CemTagger = None
 from ..nlp.abbrev import ChemAbbreviationDetector
 from ..nlp.tag import NoneTagger, POS_TAG_TYPE, NER_TAG_TYPE
 from ..nlp.pos import ChemCrfPosTagger, CrfPosTagger, ApPosTagger, ChemApPosTagger
